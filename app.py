@@ -37,7 +37,12 @@ selected_symptoms = st.multiselect("Select symptoms:", SYMPTOMS)
 if st.button("Predict Disease"):
     symptom_values = np.array([[1 if symptom in selected_symptoms else 0 for symptom in SYMPTOMS]])
     prediction = model.predict(symptom_values)
+    
     predicted_index = np.argmax(prediction)
     predicted_disease = DISEASES[predicted_index]
+    
+    confidence_score = prediction[0][predicted_index]  # Extract confidence score
+    confidence_percentage = round(confidence_score * 100, 2)  # Convert to percentage
 
     st.success(f"Predicted Disease: **{predicted_disease}**")
+    st.write(f"Confidence: **{confidence_percentage}%**")
